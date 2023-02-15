@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+  <div>{% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+       <p style="color:white;background-color:green;">{{ message }}</p> 
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}</div>
+    <form method='post'>
+       
+        <p>
+          <label for="unit"> Unit</label>
+          <input type="text" name="Unit">
+        </p>
+        <p>
+            <label for="lecturer">Time in minutes before link expires</label>
+            <input type="number"  name="time">
+          </p>
+        
+        <p>
+          <input type="submit" value="Submit">
+        </p>
+      </form>
+
+
+      <div>
+        
+        
+        {%if request.method=="POST"%}
+        <p>the link has been generated</p>
+        <p>{{link}}</p>
+
+        <p>The link expires within {{time}} minutes
+          
+        </p>
+        {%endif%}
+      </div>
+
+    
+</body>
+</html>
