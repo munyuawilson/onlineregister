@@ -16,26 +16,22 @@ def login():
         password=request.form.get('password')
 
 
-        
-        query_=User.query.filter_by(email=email).first()
-        
+        query_ = User.query.filter_by(email=email).first()
+        try:
+            if email == query_.email:
+                if check_password_hash(query_.password, password):
+                    login_user(query_, remember=True)
+                    session['name'] = query_.name
+                    TOKEN = secrets.token_hex(16)
+                    session['token'] = TOKEN
+                    flash('You were successfully logged in', 'success')
+                    return redirect('/dashboard')
+                else:
+                    flash('Check your details!', 'error')
+        except AttributeError:
+            flash('You do not have an account!', 'error')
 
-        if not query_:
-            flash('You do not have an account!')
-        
-        #query_ = db.session.execute(db.select(User).filter_by(email=email)).scalar_one()
-        
-        if email == query_.email:
-            if check_password_hash(query_.password, password):
-                login_user(query_,remember=True)
-                session['name'] = query_.name
-                TOKEN = secrets.token_hex(16)
-                session['token']=TOKEN
-                flash('You were successfully logged in')
-                
-                return redirect('/dashboard')
-            else:
-                flash('Check your details!')
+    return render_template('login.html')
 
         
 
@@ -58,7 +54,7 @@ def create_acc():
             query_=User.query.filter_by(email=email).first()
             
             if query_:
-                    flash('User already there!!')
+                    flash('User already there!!','error')
                     
             
             else:
@@ -70,7 +66,7 @@ def create_acc():
                 db.session.commit()
                 login_user(query_,remember=True)
                 session['name'] = query_.name
-                flash('Account created Succefully!!')
+                flash('Account created Succefully!!','success')
                 return redirect('/dashboard')
 
     
