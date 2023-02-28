@@ -5,7 +5,7 @@ from flask_login import LoginManager
 
 
 
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='/static')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 from auth import *
 from views import *
@@ -15,7 +15,7 @@ login.init_app(app)
 
 @login.user_loader
 def load_user(id):
-    return db.session.execute(User).query.get(int(id))
+    return User.query.get(int(id))
 
 
 

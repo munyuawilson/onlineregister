@@ -1,54 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <title>Welcome Dashboard</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
-<body>
-  <div>{% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class=flashes>
-      {% for message in messages %}
-       <p style="color:white;background-color:green;">{{ message }}</p> 
-      {% endfor %}
+<body style="background-color: #E6F2F8;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand"><img src="static/logo.jpg" height="30" alt="Logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <span class="nav-link">Welcome {{name}}</span>
+        </li>
+        <li class="nav-item">
+          <form method="post" action="{{url_for('logout')}}">
+            <button type="submit" class="btn btn-link nav-link">Logout</button>
+          </form>
+        </li>
       </ul>
-    {% endif %}
-  {% endwith %}</div>
-    <form method='post'>
-       
-        <p>
-          <label for="unit"> Unit</label>
-          <input type="text" name="Unit">
-        </p>
-        <p>
-            <label for="lecturer">Time in minutes before link expires</label>
-            <input type="number"  name="time">
-          </p>
-        
-        <p>
-          <input type="submit" value="Submit">
-        </p>
-      </form>
-
-
-      <div>
-        
-        
-        {%if request.method=="POST"%}
-        <p>the link has been generated</p>
-        <p>{{link}}</p>
-
-        <p>The link expires within {{time}} minutes
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-6">
+        <form method="post">
+          <div class="form-group">
+            <label for="course-name">Course Name</label>
+            <input type="text" class="form-control" id="course-name" placeholder="Enter course name" name="unit">
+          </div>
+          <div class="form-group">
+            <label for="time">Time</label>
+            <input type="text" class="form-control" id="time" placeholder="Enter time" name="time">
+          </div>
           
-        </p>
-        {%endif%}
+        
+        <div>
+          {%if request.method=="POST"%}
+          <p>The link has been generated</p>
+          <p><a href="{{short_url}}">{{short_url}}</a></p>
+          <p>The link expires within {{time}} minutes</p>
+          {%endif%}
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          <a href="{{url_for('download')}}" class="btn btn-primary mr-2" class="mr-2">Download File</a>
+          </div>
+        </div>
+      </form>
       </div>
-      <div>
-       <a href="{{ url_for('download') }}">file</a> 
-      </div>
-
-    
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+  </script>
 </body>
 </html>
